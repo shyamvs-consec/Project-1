@@ -7,7 +7,7 @@ This document summarizes the issues in legacy_ledger.py and the fixes implemente
 
 A)Security – SQL Injection:
 i)Search queries were built using f-strings.
-ii)Allowed attackers to retrieve unauthorized data using crafted inputs.
+ii)Allowed attackers to retrieve unauthorized data using crafted inputs(e.g. : ' OR '1'='1).
 
 B)Performance – Blocking I/O:
 
@@ -19,9 +19,9 @@ C)Data Integrity – Unsafe Updates:
 i)Balance updates were not atomic.
 ii)No validation for sufficient funds before deduction.
 
-2. Refactored Solution (legacy_fixed.py)
+2. Refactored Solution (legacy_ledger_Fixed.py)
 
-The service was rewritten using FastAPI and aiosqlite.
+The service was rewritten using FastAPI while preserving the original database initialization logic.
 
 A)Security Hardening:
 
@@ -40,7 +40,7 @@ ii)Validated balance before update and rolled back on failure.
 
 3. Verification
 
-A pytest suite (test_ledger_fixed.py) validates the fixes:
+A pytest suite (test_legacy_ledger_Fixed.py) validates the fixes:
 
 i)SQL injection attempts fail.
 ii)Concurrent transactions execute in parallel.
